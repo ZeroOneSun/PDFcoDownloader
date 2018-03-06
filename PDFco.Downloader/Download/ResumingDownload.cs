@@ -29,7 +29,8 @@ namespace PDFco.Downloader.Download
 
         private int currentRetry = 0;
 
-        public ResumingDownload(Uri url, int bufferSize, long? offset, long? maxReadBytes, int timeForHeartbeat, int timeToRetry, int? maxRetries, IDownloadBuilder downloadBuilder)
+        public ResumingDownload(Uri url, int bufferSize, long? offset, long? maxReadBytes, int timeForHeartbeat,
+            int timeToRetry, int? maxRetries, IDownloadBuilder downloadBuilder)
             : base(url, bufferSize, offset, maxReadBytes, null, null)
         {
             if (timeForHeartbeat <= 0)
@@ -49,8 +50,10 @@ namespace PDFco.Downloader.Download
 
         protected override void OnStart()
         {
-            StartThread(this.StartDownload, string.Format("ResumingDownload offset {0} length {1} Main", this.offset, this.maxReadBytes));
-            StartThread(this.CheckHeartbeat, string.Format("ResumingDownload offset {0} length {1} Heartbeat", this.offset, this.maxReadBytes));
+            StartThread(this.StartDownload,
+                string.Format("ResumingDownload offset {0} length {1} Main", this.offset, this.maxReadBytes));
+            StartThread(this.CheckHeartbeat,
+                string.Format("ResumingDownload offset {0} length {1} Heartbeat", this.offset, this.maxReadBytes));
         }
 
         protected override void OnStop()
@@ -85,7 +88,7 @@ namespace PDFco.Downloader.Download
                 lock (this.monitor)
                 {
                     if (this.DoStopIfNecessary())
-                    {
+                    { 
                         return;
                     }
 
@@ -124,9 +127,12 @@ namespace PDFco.Downloader.Download
                     return;
                 }
 
-                long? currentMaxReadBytes = this.maxReadBytes.HasValue ? (long?)this.maxReadBytes.Value - this.sumOfBytesRead : null;
+                long? currentMaxReadBytes = this.maxReadBytes.HasValue
+                    ? (long?) this.maxReadBytes.Value - this.sumOfBytesRead
+                    : null;
 
-                this.currentDownload = this.downloadBuilder.Build(this.url, this.bufferSize, this.currentOffset, currentMaxReadBytes);
+                this.currentDownload =
+                    this.downloadBuilder.Build(this.url, this.bufferSize, this.currentOffset, currentMaxReadBytes);
                 this.currentDownload.DownloadStarted += downloadStarted;
                 this.currentDownload.DownloadCancelled += downloadCancelled;
                 this.currentDownload.DownloadCompleted += downloadCompleted;
@@ -144,7 +150,7 @@ namespace PDFco.Downloader.Download
                 lock (this.monitor)
                 {
                     this.state = DownloadState.Stopped;
-                }
+                } 
             }
 
             return this.stopping;
@@ -163,6 +169,7 @@ namespace PDFco.Downloader.Download
                 this.currentDownload.DetachAllHandlers();
                 this.currentDownload.Stop();
                 this.currentDownload = null;
+
             }
         }
 
@@ -212,7 +219,8 @@ namespace PDFco.Downloader.Download
 
             if (shouldNotifyDownloadStarted)
             {
-                this.OnDownloadStarted(new DownloadStartedEventArgs(this, args.CheckResult, args.AlreadyDownloadedSize));
+                this.OnDownloadStarted(
+                    new DownloadStartedEventArgs(this, args.CheckResult, args.AlreadyDownloadedSize));
             }
         }
 
@@ -244,7 +252,7 @@ namespace PDFco.Downloader.Download
                         StartThread(this.SleepThenBuildDownload, Thread.CurrentThread.Name + "-afterCancel");
                     }
                 }
-            }
+            } 
         }
     }
 }

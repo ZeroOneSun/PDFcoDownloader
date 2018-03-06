@@ -31,7 +31,8 @@ namespace PDFco.Downloader.Example
             List<DownloadRange> alreadyDownloadedRanges = null;
             var bufferSize = 4096;
             var numberOfParts = 4;
-            var download = new MultiPartDownload(url, bufferSize, numberOfParts, resumingDlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges);
+            var maxRetryDownloadParts = 2;
+            var download = new MultiPartDownload(url, bufferSize, numberOfParts, resumingDlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges, maxRetryDownloadParts);
             var speedMonitor = new DownloadSpeedMonitor(maxSampleCount: 128);
             speedMonitor.Attach(download);
             var progressMonitor = new DownloadProgressMonitor();
@@ -46,6 +47,8 @@ namespace PDFco.Downloader.Example
             var dlSaver = new DownloadToFileSaver(file);
             dlSaver.Attach(download);
             download.DownloadCompleted += OnCompleted;
+            download.DownloadCancelled += OnDownloadCancelled;
+            download.DownloadStopped += OnDownloadStopped;
             download.Start();
 
             while (!finished)
@@ -68,12 +71,26 @@ namespace PDFco.Downloader.Example
                     "   Remaining time: " + remainingTimeInSeconds + " sec.");
             }
         }
-
+         
         static void OnCompleted(DownloadEventArgs args)
         {
             // this is an important thing to do after a download isn't used anymore, otherwise you will run into a memory leak.
             args.Download.DetachAllHandlers();
             Console.WriteLine("Download has finished!");
+            finished = true;
+        }
+
+        static void OnDownloadCancelled(DownloadCancelledEventArgs args)
+        { 
+            args.Download.DetachAllHandlers();
+            Console.WriteLine("Download has cancelled!");
+            finished = true;
+        }
+
+        private static void OnDownloadStopped(DownloadEventArgs args)
+        {
+            args.Download.DetachAllHandlers();
+            Console.WriteLine("Download has stopped!");
             finished = true;
         }
     }

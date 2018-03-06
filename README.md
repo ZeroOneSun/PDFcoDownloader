@@ -18,7 +18,8 @@ var rdlBuilder = new ResumingDownloadBuilder(timeForHeartbeat, timeToRetry, maxR
 List<DownloadRange> alreadyDownloadedRanges = null;
 var bufferSize = 4096;
 var numberOfParts = 4;
-var download = new MultiPartDownload(url, bufferSize, numberOfParts, rdlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges);
+var maxRetryDownloadParts = 2;
+var download = new MultiPartDownload(url, bufferSize, numberOfParts, resumingDlBuilder, requestBuilder, dlChecker, alreadyDownloadedRanges, maxRetryDownloadParts);
 download.DownloadCompleted += (args) => Console.WriteLine("download has finished!");
 var file = new FileInfo("yourfile.zip");
 var dlSaver = new DownloadToFileSaver(file);

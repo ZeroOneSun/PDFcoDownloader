@@ -15,9 +15,13 @@ namespace PDFco.Downloader.Download
 
         private readonly int numberOfParts;
 
+        private readonly int maxRetryDownloadParts = 2;
+
+        private int currentRetryDownloadParts = 0;
+
         private readonly IDownloadBuilder downloadBuilder;
 
-        private readonly Dictionary<IDownload, DownloadRange> downloads = new Dictionary<IDownload, DownloadRange>();
+        private readonly Dictionary<IDownload, DownloadRange> downloads = new Dictionary<IDownload, DownloadRange>(); 
 
         public MultiPartDownload(
             Uri url,
@@ -26,7 +30,8 @@ namespace PDFco.Downloader.Download
             IDownloadBuilder downloadBuilder,
             IWebRequestBuilder requestBuilder,
             IDownloadChecker downloadChecker,
-            List<DownloadRange> alreadyDownloadedRanges)
+            List<DownloadRange> alreadyDownloadedRanges, 
+            int maxRetryDownloadParts = 2)
             : base(url, bufferSize, null, null, requestBuilder, downloadChecker)
         {
             if (numberOfParts <= 0)
@@ -36,6 +41,7 @@ namespace PDFco.Downloader.Download
                 throw new ArgumentNullException("downloadBuilder");
 
             this.numberOfParts = numberOfParts;
+            this.maxRetryDownloadParts = maxRetryDownloadParts;
             this.downloadBuilder = downloadBuilder;
             this.AlreadyDownloadedRanges = alreadyDownloadedRanges ?? new List<DownloadRange>();
 
@@ -130,14 +136,15 @@ namespace PDFco.Downloader.Download
             download.DataReceived += downloadDataReceived;
             download.DownloadCancelled += downloadCancelled;
             download.DownloadCompleted += downloadCompleted;
+            download.DownloadStopped += downloadStopped;
             download.Start();
 
             lock (this.monitor)
             {
-                this.downloads.Add(download, range);
+                this.downloads.Add(download, range); 
             }
         }
-
+         
         private List<DownloadRange> DetermineToDoRanges(long fileSize, List<DownloadRange> alreadyDoneRanges)
         {
             var result = new List<DownloadRange>();
@@ -176,11 +183,11 @@ namespace PDFco.Downloader.Download
             {
                 nextRange = this.ToDoRanges.FirstOrDefault(r => !this.downloads.Values.Any(r2 => downloadRangeHelper.RangesCollide(r, r2)));
             }
-
+             
             if (nextRange != null)
             {
                 StartDownload(nextRange);
-            }
+            } 
 
             if (!this.downloads.Any())
             {
@@ -239,7 +246,7 @@ namespace PDFco.Downloader.Download
             lock (this.monitor)
             {
                 var resumingDownload = (ResumingDownload)args.Download;
-                this.downloads.Remove(resumingDownload);
+                this.downloads.Remove(resumingDownload); 
             }
 
             this.StartDownloadOfNextRange();
@@ -247,7 +254,39 @@ namespace PDFco.Downloader.Download
 
         private void downloadCancelled(DownloadCancelledEventArgs args)
         {
-            this.StartDownloadOfNextRange();
+            lock (this.monitor)
+            {
+                var resumingDownload = (ResumingDownload)args.Download;
+                this.downloads.Remove(resumingDownload);
+            }
+
+            if (++currentRetryDownloadParts / numberOfParts >= maxRetryDownloadParts)
+            {
+                this.Stop(); 
+            }
+            else
+            {
+                this.StartDownloadOfNextRange();
+            } 
         }
+
+        private void downloadStopped(DownloadEventArgs args)
+        {
+            lock (this.monitor)
+            {
+                var resumingDownload = (ResumingDownload)args.Download;
+                this.downloads.Remove(resumingDownload);
+            }
+
+            if (++currentRetryDownloadParts / numberOfParts >= maxRetryDownloadParts)
+            {
+                this.Stop();
+            }
+            else
+            {
+                this.StartDownloadOfNextRange();
+            }
+        }
+
     }
 }
