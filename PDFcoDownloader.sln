@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2008
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFco.Downloader", "PDFco.Downloader\PDFco.Downloader.csproj", "{045CE992-F761-4541-BE07-D9DA5B1E37C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFco.Downloader.Test", "PDFco.Downloader.Test\PDFco.Downloader.Test.csproj", "{B4B0E523-1273-46AD-A956-7B66390F6FA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B65C6B7C-FB57-428F-BCEA-2E6113FA4B90}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDFco.Downloader.Example", "PDFco.Downloader.Example\PDFco.Downloader.Example.csproj", "{2BB3FC3C-173E-4F3A-8F63-0896606F106F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other items", "Other items", "{84246896-DFEF-4A11-9EF5-5BBA3EFD1D45}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug3.5|Any CPU = Debug3.5|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Release3.5|Any CPU = Release3.5|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Debug3.5|Any CPU.ActiveCfg = Debug|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Debug3.5|Any CPU.Build.0 = Debug|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Release3.5|Any CPU.ActiveCfg = Release|Any CPU
+		{045CE992-F761-4541-BE07-D9DA5B1E37C5}.Release3.5|Any CPU.Build.0 = Release|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Debug3.5|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Debug3.5|Any CPU.Build.0 = Debug|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Release3.5|Any CPU.ActiveCfg = Release|Any CPU
+		{B4B0E523-1273-46AD-A956-7B66390F6FA9}.Release3.5|Any CPU.Build.0 = Release|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Debug3.5|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Debug3.5|Any CPU.Build.0 = Debug|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Release3.5|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB3FC3C-173E-4F3A-8F63-0896606F106F}.Release3.5|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {055F1793-42AB-492E-8C52-0C4DC3B1DA54}
+	EndGlobalSection
+EndGlobal
