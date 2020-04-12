@@ -18,7 +18,7 @@ namespace PDFco.Downloader.Download
             try
             {
                 var request = this.requestBuilder.CreateRequest(this.url, this.offset);
-
+                
                 using (var response = request.GetResponse())
                 {
                     var httpResponse = response as HttpWebResponse;

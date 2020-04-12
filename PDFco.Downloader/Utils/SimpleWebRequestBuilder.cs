@@ -7,9 +7,14 @@ namespace PDFco.Downloader.Utils
 {
     public class SimpleWebRequestBuilder : IWebRequestBuilder
     {
+        public SimpleWebRequestBuilder(int timeout)
+        {
+            this.Timeout = timeout;
+        }
+
         public SimpleWebRequestBuilder(IWebProxy proxy)
         {
-            this.proxy = proxy;
+            this.Proxy = proxy;
         }
 
         public SimpleWebRequestBuilder()
@@ -17,15 +22,19 @@ namespace PDFco.Downloader.Utils
         {
         }
 
-        public IWebProxy proxy { get; private set; }
+        public int Timeout { get; set; } = 100;
+
+        public IWebProxy Proxy { get; private set; }
 
         public HttpWebRequest CreateRequest(Uri url, long? offset)
-        {
+        { 
             var request = (HttpWebRequest)WebRequest.Create(url);
 
-            if (proxy != null)
+            request.Timeout = Timeout;
+
+            if (Proxy != null)
             {
-                request.Proxy = proxy;
+                request.Proxy = Proxy;
             }
 
             if (offset.HasValue && offset.Value > 0)

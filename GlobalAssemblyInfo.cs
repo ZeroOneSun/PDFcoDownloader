@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("created by PDFco")]
 [assembly: AssemblyCopyright("MIT license")]
 
-[assembly: AssemblyVersion("2.0.2.1")]
-[assembly: AssemblyFileVersion("2.0.2.1")]
+[assembly: AssemblyVersion("2.0.3.0")]
+[assembly: AssemblyFileVersion("2.0.3.0")]
 
 #if DEBUG
 [assembly : AssemblyConfiguration("Debug")]
